@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文章内容翻译自webpack 官方指引文档  webpack的安装1npm install webpack -g 全局安装不适用于工程环境，一般还是要安装在工程目录中： 1npm install webpack --save">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack 使用入门指引">
+<meta property="og:url" content="http://phoeshow.me/2016/10/12/webpack-使用入门指引/index.html">
+<meta property="og:site_name" content="群峰之下">
+<meta property="og:description" content="文章内容翻译自webpack 官方指引文档  webpack的安装1npm install webpack -g 全局安装不适用于工程环境，一般还是要安装在工程目录中： 1npm install webpack --save">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://o84rkcsji.bkt.clouddn.com/webpack-logo.png">
+<meta property="og:updated_time" content="2018-09-07T16:29:02.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack 使用入门指引">
+<meta name="twitter:description" content="文章内容翻译自webpack 官方指引文档  webpack的安装1npm install webpack -g 全局安装不适用于工程环境，一般还是要安装在工程目录中： 1npm install webpack --save">
+<meta name="twitter:image" content="http://o84rkcsji.bkt.clouddn.com/webpack-logo.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://phoeshow.me/2016/10/12/webpack-使用入门指引/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>webpack 使用入门指引 | 群峰之下</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1f32f8f207a5272f658db99d05e15c4a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">群峰之下</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我是拓跋猴</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://phoeshow.me/2016/10/12/webpack-使用入门指引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbo Monkey">
+      <meta itemprop="description" content="我就写点东西，不搞新闻">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="群峰之下">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack 使用入门指引
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-10-12 18:00:07" itemprop="dateCreated datePublished" datetime="2016-10-12T18:00:07+08:00">2016-10-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-09-08 00:29:02" itemprop="dateModified" datetime="2018-09-08T00:29:02+08:00">2018-09-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/教程/" itemprop="url" rel="index"><span itemprop="name">教程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="http://o84rkcsji.bkt.clouddn.com/webpack-logo.png" rel="gallery_cjowwseo2000fh2xj452my5o0"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="http://o84rkcsji.bkt.clouddn.com/webpack-logo.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <blockquote>
+<p>文章内容翻译自<a href="https://webpack.github.io/docs/usage.html" target="_blank" rel="noopener">webpack 官方指引文档</a></p>
+</blockquote>
+<h2 id="webpack的安装"><a href="#webpack的安装" class="headerlink" title="webpack的安装"></a>webpack的安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack -g</span><br></pre></td></tr></table></figure>
+<p>全局安装不适用于工程环境，一般还是要安装在工程目录中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack --save</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h2><h3 id="单文件的-javascript-模块"><a href="#单文件的-javascript-模块" class="headerlink" title="单文件的 javascript 模块"></a>单文件的 javascript 模块</h3><p>建立一个使用 <code>CommonJS</code> 语法风格的 js 模块文件</p>
+<p><strong>cats.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cats = [<span class="string">'dave'</span>,<span class="string">'henry'</span>,<span class="string">'martha'</span>];</span><br><span class="line"><span class="built_in">module</span>.exports = cats;</span><br></pre></td></tr></table></figure>
+<p><strong>app.js (入口文件)</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cats = <span class="built_in">require</span>(<span class="string">'./cats.js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(cats);</span><br></pre></td></tr></table></figure>
+<p><strong>入口文件</strong>是指程序的起始位置，同时也是 <code>webpack</code> 开始追踪模块依赖的位置。</p>
+<p>使用的方法是在文件位置的命令行里输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack ./app.js app.bundle.js</span><br></pre></td></tr></table></figure>
+<p>打包出来的 <code>app.bundle.js</code> 自动将模块封装进入口文件中并且生成了新的 <code>bundle</code> 文件。</p>
+<h3 id="webpack的工作过程"><a href="#webpack的工作过程" class="headerlink" title="webpack的工作过程"></a>webpack的工作过程</h3><ol>
+<li>读取入口文件，并分析依赖和依赖的依赖，依次类推</li>
+<li>打包入口文件，并且讲所有的依赖都打包在单文件中</li>
+</ol>
+<h2 id="高级技巧"><a href="#高级技巧" class="headerlink" title="高级技巧"></a>高级技巧</h2><h3 id="在项目中使用webpack"><a href="#在项目中使用webpack" class="headerlink" title="在项目中使用webpack"></a>在项目中使用webpack</h3><p>将源代码和打包文件分开存放，为了使用各种加强的功能需要写 <strong>webpack.config.js</strong> 文件。</p>
+<p>一般使用 <code>npm init</code> 来初始化项目。还需要建立一系列空白文件夹，例如  <strong>src</strong> 用于存放源代码， <strong>bin</strong> 用来存放生成的打包文件。</p>
+<h3 id="引入-webpack-config-js-文件"><a href="#引入-webpack-config-js-文件" class="headerlink" title="引入 webpack.config.js 文件"></a>引入 webpack.config.js 文件</h3><p>文件的作用类似于 <em>gulp</em> 的 <em>gulpfile.js</em> ，位置应当位于工程目录的顶层，书写内容如下;</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry:<span class="string">'./src/app.js'</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output:&#123;				<span class="comment">// 输出文件设置</span></span><br><span class="line">    path:<span class="string">'./bin'</span>,</span><br><span class="line">    filename:<span class="string">'app.bundle.js'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>webpack.config.js 文件是一个 <code>commonJS</code> 风格的模块</p>
+</blockquote>
+<p>直接在工程目录命令行中执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack</span><br></pre></td></tr></table></figure>
+<h3 id="使用加载器"><a href="#使用加载器" class="headerlink" title="使用加载器"></a>使用加载器</h3><p>webpack原本只能使用原生的 <strong>js</strong> 模块，如果写了ES2015，CoffeeScript等等语法的模块的话需要用<strong>加载器</strong>来引入。</p>
+<p><strong>加载器</strong>是一种特殊的 webpack 模块，其作用是<strong>加载其他模块</strong>，这些模块通常使用<strong>非js语言</strong>写成。例如我们可以使用 <code>bable-loader</code> 加载器来引入 ES2015 语法的 js 文件。</p>
+<p>加载器可以链式调用，例如 <code>yaml-loader</code> 加载器可以输出 json 格式的数据，单要使用的话还需要链式调用 <code>json-loader</code> 加载器。</p>
+<p>例如：</p>
+<ul>
+<li>使用 <code>babel-loader!./app.js</code> 来打包 es2015 的代码。</li>
+<li>使用 <code>json-loader!./cats.json</code> 来封装出 CommonJS 的代码。</li>
+<li>还支持链式调用。</li>
+</ul>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><p>打包 ES2015 风格的代码</p>
+<ol>
+<li><p>安装 <code>Babel</code> 和预设：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-core babel-preset-es2015</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 <code>babel-loader</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-loader</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置babel使用预设器中的预设值，在项目目录中添加 <code>.babelrc</code> 文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">"presets"</span>:[<span class="string">"es2015"</span>]&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>改写 <code>webpack.config.js</code> 文件，使所有的 js 文件都使用 <code>babel-loader</code> 加载器加载 ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">     entry: <span class="string">'./src/app.js'</span>,</span><br><span class="line">     output: &#123;</span><br><span class="line">         path: <span class="string">'./bin'</span>,</span><br><span class="line">         filename: <span class="string">'app.bundle.js'</span>,</span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="built_in">module</span>: &#123;</span><br><span class="line">         loaders: [&#123;</span><br><span class="line">             test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">             exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">             loader: <span class="string">'babel-loader'</span></span><br><span class="line">         &#125;]</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装需要使用的库文件，比如安装 <code>jquery</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save jquery babel-polyfill</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p> <em>bable-polyfill 的作用是为旧版浏览器提供es2015兼容</em></p>
+<p> <em>Babel默认只转换新的JavaScript句法（syntax），而不转换新的API，比如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise等全局对象，以及一些定义在全局对象上的方法（比如<code>Object.assign</code>）都不会转码。</em></p>
+<p> <em>举例来说，ES6在<code>Array</code>对象上新增了<code>Array.from</code>方法。Babel就不会转码这个方法。如果想让这个方法运行，必须使用<code>babel-polyfill</code>，为当前环境提供一个垫片。</em></p>
+<p> ————阮一峰老师的<a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="noopener">《Babel 入门教程》</a></p>
+</blockquote>
+</li>
+<li><p>编写一段 <code>src/app.js</code> 脚本，可以看到这里写的是 ES2015 语法风格：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'babel-polyfill'</span>;</span><br><span class="line"><span class="keyword">import</span> cats <span class="keyword">from</span> <span class="string">'./cats'</span>;</span><br><span class="line"><span class="keyword">import</span> $ <span class="keyword">from</span> <span class="string">'jquery'</span>;</span><br><span class="line"></span><br><span class="line">$(<span class="string">'&lt;h1&gt;Cats&lt;/h1&gt;'</span>).appendTo(<span class="string">'body'</span>);</span><br><span class="line"><span class="keyword">const</span> ul = $(<span class="string">'&lt;ul&gt;&lt;/ul&gt;'</span>).appendTo(<span class="string">'body'</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> cat <span class="keyword">of</span> cats) &#123;</span><br><span class="line">    $(<span class="string">'&lt;li&gt;&lt;/li&gt;'</span>).text(cat).appendTo(ul);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打包模块：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加一个 <code>index.html</code> 文件用来呈现效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bin/app.bundle.js"</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>打开网页文件看到的应该是：</p>
+<p><img src="http://o84sr3gmi.bkt.clouddn.com/cats.png" alt=""></p>
+</li>
+</ol>
+<h3 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h3><p>如果你想在工作流中插入一些打包之外的工作，那你就需要使用插件。插件有一个常见的使用场景是压缩代码使之加载更快。使用方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);<span class="comment">// 引入webpack，这里需要webpack中自带的压缩插件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: <span class="string">'./src/app.js'</span>,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: <span class="string">'./bin'</span>,</span><br><span class="line">        filename: <span class="string">'app.bundle.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        loaders: [&#123;</span><br><span class="line">            test: <span class="regexp">/\.jsx?$/</span>,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">            loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;<span class="comment">// 可以看到webpack原生带有压缩插件</span></span><br><span class="line">            compress: &#123;</span><br><span class="line">                warnings: <span class="literal">false</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            output: &#123;</span><br><span class="line">                comments: <span class="literal">false</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;),</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用插件后，打包出的文件尺寸大幅缩小了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>webpack 需要一个 <strong>入口</strong> 文件。</li>
+<li>配置文件中的四个大项目<ul>
+<li>入口 <code>entry</code></li>
+<li>出口 <code>output</code></li>
+<li>加载器 <code>loader</code></li>
+<li>插件 <code>plugin</code></li>
+</ul>
+</li>
+<li>暂时没了</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/19/前端之魂，触碰后端的手——Node-js学习之路（三）/" rel="next" title="前端之魂，触碰后端的手——Node.js学习之路（三）">
+                <i class="fa fa-chevron-left"></i> 前端之魂，触碰后端的手——Node.js学习之路（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/08/webpack2-react/" rel="prev" title="webpack2 & react">
+                webpack2 & react <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ0Ny81MDE4"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Turbo Monkey</p>
+              <p class="site-description motion-element" itemprop="description">我就写点东西，不搞新闻</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack的安装"><span class="nav-number">1.</span> <span class="nav-text">webpack的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初步尝试"><span class="nav-number">2.</span> <span class="nav-text">初步尝试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单文件的-javascript-模块"><span class="nav-number">2.1.</span> <span class="nav-text">单文件的 javascript 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack的工作过程"><span class="nav-number">2.2.</span> <span class="nav-text">webpack的工作过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级技巧"><span class="nav-number">3.</span> <span class="nav-text">高级技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在项目中使用webpack"><span class="nav-number">3.1.</span> <span class="nav-text">在项目中使用webpack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入-webpack-config-js-文件"><span class="nav-number">3.2.</span> <span class="nav-text">引入 webpack.config.js 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用加载器"><span class="nav-number">3.3.</span> <span class="nav-text">使用加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举个例子"><span class="nav-number">3.3.1.</span> <span class="nav-text">举个例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用插件"><span class="nav-number">3.4.</span> <span class="nav-text">使用插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbo Monkey</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2016/10/12/webpack-使用入门指引/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

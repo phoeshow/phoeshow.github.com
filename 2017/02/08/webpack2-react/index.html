@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="webpack + React 搭建开发环境webpack是当前如日中天的打包工具，React官方指定的搭配产品。这里记录一下具体的操作步骤。 使用方法1. 初始化项目1234mkdir react_tutorial// 文件夹的名字是可以随便取的cd react_tutorialnpm init">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack2 &amp; react">
+<meta property="og:url" content="http://phoeshow.me/2017/02/08/webpack2-react/index.html">
+<meta property="og:site_name" content="群峰之下">
+<meta property="og:description" content="webpack + React 搭建开发环境webpack是当前如日中天的打包工具，React官方指定的搭配产品。这里记录一下具体的操作步骤。 使用方法1. 初始化项目1234mkdir react_tutorial// 文件夹的名字是可以随便取的cd react_tutorialnpm init">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-07T16:29:02.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack2 &amp; react">
+<meta name="twitter:description" content="webpack + React 搭建开发环境webpack是当前如日中天的打包工具，React官方指定的搭配产品。这里记录一下具体的操作步骤。 使用方法1. 初始化项目1234mkdir react_tutorial// 文件夹的名字是可以随便取的cd react_tutorialnpm init">
+
+
+
+
+
+
+  <link rel="canonical" href="http://phoeshow.me/2017/02/08/webpack2-react/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>webpack2 & react | 群峰之下</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1f32f8f207a5272f658db99d05e15c4a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">群峰之下</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">我是拓跋猴</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://phoeshow.me/2017/02/08/webpack2-react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Turbo Monkey">
+      <meta itemprop="description" content="我就写点东西，不搞新闻">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="群峰之下">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack2 & react
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-02-08 17:32:41" itemprop="dateCreated datePublished" datetime="2017-02-08T17:32:41+08:00">2017-02-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-09-08 00:29:02" itemprop="dateModified" datetime="2018-09-08T00:29:02+08:00">2018-09-08</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="webpack-React-搭建开发环境"><a href="#webpack-React-搭建开发环境" class="headerlink" title="webpack + React 搭建开发环境"></a>webpack + React 搭建开发环境</h1><p>webpack是当前如日中天的打包工具，React官方指定的搭配产品。这里记录一下具体的操作步骤。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="1-初始化项目"><a href="#1-初始化项目" class="headerlink" title="1. 初始化项目"></a>1. 初始化项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir react_tutorial</span><br><span class="line">// 文件夹的名字是可以随便取的</span><br><span class="line"><span class="built_in">cd</span> react_tutorial</span><br><span class="line">npm init</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="2-安装webpack和webpack-dev-server"><a href="#2-安装webpack和webpack-dev-server" class="headerlink" title="2. 安装webpack和webpack-dev-server"></a>2. 安装webpack和webpack-dev-server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack@2.2.0 webpack-dev-server@2.2.0 html-webpack-plugin  --save-dev</span><br></pre></td></tr></table></figure>
+<p><code>html-webpack-plugin</code> 插件的作用是动态生成一个网页文件。<br><code>webpack-dev-server</code> 模块的作用是创建一个开发服务器，用来观看效果，服务器基于 <em>express</em></p>
+<h3 id="3-安装Babel"><a href="#3-安装Babel" class="headerlink" title="3. 安装Babel"></a>3. 安装Babel</h3><p><code>Babel</code>是一个javascript编译器，可以将es6或者jsx的代码编译为浏览器可识别的代码，这里需要用到babel的核心模块和两个预设器（preset）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//安装babel核心模块和babel加载器</span><br><span class="line">npm install babel-core babel-loader --save-dev</span><br><span class="line">//安装es6预设器和react中jsx的预设器</span><br><span class="line">npm install babel-preset-es2015 babel-preset-react --save-dev</span><br></pre></td></tr></table></figure>
+<p>此外还需要在项目根目录中添加<code>.babelrc</code>文件用来设置预设器：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"presets"</span>:[<span class="string">"es2015"</span>,<span class="string">"react"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-安装React"><a href="#4-安装React" class="headerlink" title="4. 安装React"></a>4. 安装React</h3><p>把react添加在项目中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react react-dom --save</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这里要注意npm中 save  和 save-dev 的区别：<br>save：代表所安装的模块是产品的依赖，最后会给用户使用<br>save-dev：代表模块是开发过程中要使用的工具</p>
+</blockquote>
+<h3 id="5-配置webpack"><a href="#5-配置webpack" class="headerlink" title="5. 配置webpack"></a>5. 配置webpack</h3><p>在项目根目录中建立<code>webpack.config.js</code>文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; resolve &#125; = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 配置页面入口js文件</span></span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 配置打包输出相关</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    <span class="comment">// 打包输出目录</span></span><br><span class="line">    path: resolve(__dirname, <span class="string">'dist'</span>),</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 入口js的打包输出文件名</span></span><br><span class="line">    filename: <span class="string">'index.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    配置各种类型文件的加载器, 称之为loader</span></span><br><span class="line"><span class="comment">    webpack当遇到import ... 时, 会调用这里配置的loader对引用的文件进行编译</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        使用babel编译ES6/ES7/ES8为ES5代码</span></span><br><span class="line"><span class="comment">        使用正则表达式匹配后缀名为.js的文件</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 排除node_modules目录下的文件, npm安装的包不需要编译</span></span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        use指定该文件的loader, 值可以是字符串或者数组.</span></span><br><span class="line"><span class="comment">        使用数组可以让文件传入多个loader，loader的处理顺序是从最后一个开始</span></span><br><span class="line"><span class="comment">        babel-loader用来编译js文件.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        use: [<span class="string">'babel-loader'</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  配置webpack插件</span></span><br><span class="line"><span class="comment">  plugin和loader的区别是, loader是在import时根据不同的文件名, 匹配不同的loader对这个文件做处理,</span></span><br><span class="line"><span class="comment">  而plugin, 关注的不是文件的格式, 而是在编译的各个阶段, 会触发不同的事件, 让你可以干预每个编译阶段.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    html-webpack-plugin用来打包入口html文件</span></span><br><span class="line"><span class="comment">    entry配置的入口是js文件, webpack以js文件为入口, 遇到import, 用配置的loader加载引入文件</span></span><br><span class="line"><span class="comment">    但作为浏览器打开的入口html, 是引用入口js的文件, 它在整个编译过程的外面,</span></span><br><span class="line"><span class="comment">    所以, 我们需要html-webpack-plugin来打包作为入口的html文件</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      <span class="comment">/*</span></span><br><span class="line"><span class="comment">      template参数指定入口html文件路径, 插件会把这个文件交给webpack去编译,</span></span><br><span class="line"><span class="comment">      webpack按照正常流程, 找到loaders中test条件匹配的loader来编译, 那么这里html-loader就是匹配的loader</span></span><br><span class="line"><span class="comment">      html-loader编译后产生的字符串, 会由html-webpack-plugin储存为html文件到输出目录, 默认文件名为index.html</span></span><br><span class="line"><span class="comment">      可以通过filename参数指定输出的文件名</span></span><br><span class="line"><span class="comment">      html-webpack-plugin也可以不指定template参数, 它会使用默认的html模板.</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">      template: <span class="string">'./src/index.html'</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  配置开发时用的服务器, 让你可以用 http://127.0.0.1:8080/ 这样的url打开页面来调试</span></span><br><span class="line"><span class="comment">  并且带有热更新的功能, 打代码时保存一下文件, 浏览器会自动刷新. 比nginx方便很多</span></span><br><span class="line"><span class="comment">  如果是修改css, 甚至不需要刷新页面, 直接生效. 这让像弹框这种需要点击交互后才会出来的东西调试起来方便很多.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    <span class="comment">// 配置监听端口, 因为8080很常用, 为了避免和其他程序冲突, 我们配个其他的端口号</span></span><br><span class="line">    port: <span class="number">8100</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    historyApiFallback用来配置页面的重定向</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    SPA的入口是一个统一的html文件, 比如</span></span><br><span class="line"><span class="comment">    http://localhost:8010/foo</span></span><br><span class="line"><span class="comment">    我们要返回给它</span></span><br><span class="line"><span class="comment">    http://localhost:8010/index.html</span></span><br><span class="line"><span class="comment">    这个文件</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    配置为true, 当访问的文件不存在时, 返回根目录下的index.html文件</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    historyApiFallback: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-配置-package-json-文件使用项目依赖的-webpack-来启动打包"><a href="#6-配置-package-json-文件使用项目依赖的-webpack-来启动打包" class="headerlink" title="6.配置 package.json 文件使用项目依赖的 webpack 来启动打包"></a>6.配置 package.json 文件使用项目依赖的 webpack 来启动打包</h3><p>在项目的 <code>package.json</code> 文件中插入找到 <code>scripts</code> 这段，添加如下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"dev"</span>: <span class="string">"webpack-dev-server -d --hot"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack -p"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure></p>
+<p>就会开启一个用于开发测试的服务器，并且根据我们在<code>src</code>中各个文件的修改，还会自动刷新浏览器，使用起来效率高的不要不要的。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/12/webpack-使用入门指引/" rel="next" title="webpack 使用入门指引">
+                <i class="fa fa-chevron-left"></i> webpack 使用入门指引
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/12/git-入门基础/" rel="prev" title="git 入门基础">
+                git 入门基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODQ0Ny81MDE4"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Turbo Monkey</p>
+              <p class="site-description motion-element" itemprop="description">我就写点东西，不搞新闻</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack-React-搭建开发环境"><span class="nav-number">1.</span> <span class="nav-text">webpack + React 搭建开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">1.1.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-初始化项目"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 初始化项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装webpack和webpack-dev-server"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 安装webpack和webpack-dev-server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装Babel"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 安装Babel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-安装React"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 安装React</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-配置webpack"><span class="nav-number">1.1.5.</span> <span class="nav-text">5. 配置webpack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-配置-package-json-文件使用项目依赖的-webpack-来启动打包"><span class="nav-number">1.1.6.</span> <span class="nav-text">6.配置 package.json 文件使用项目依赖的 webpack 来启动打包</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Turbo Monkey</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2017/02/08/webpack2-react/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
